@@ -6,6 +6,46 @@ import { useState } from 'react'
 
 export default function Home() {
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [category, setCategory] = useState('Marathon (42 km)')
+  const [terms, setTerms] = useState(false)
+  const [registrationSuccess, setRegistrationSuccess] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!name || !email || !phone || !terms) {
+      alert('Please fill in all fields and accept the terms')
+      return
+    }
+
+    setIsSubmitting(true)
+    
+    // Simulate API call
+    setTimeout(() => {
+      console.log('[v0] Registration submitted:', { name, email, phone, category })
+      setRegistrationSuccess(true)
+      setIsSubmitting(false)
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setName('')
+        setEmail('')
+        setPhone('')
+        setCategory('Marathon (42 km)')
+        setTerms(false)
+        setRegistrationSuccess(false)
+      }, 3000)
+    }, 1000)
+  }
+
+  const scrollToRegister = () => {
+    const element = document.getElementById('register')
+    element?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const teamMembers = [
     { name: 'Kalki', role: 'Permissions & Administration', icon: '📋' },
@@ -63,13 +103,43 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-lg hover:shadow-xl transition transform hover:scale-105">
+            <button 
+              onClick={scrollToRegister}
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-lg hover:shadow-xl transition transform hover:scale-105"
+            >
               Register Now
             </button>
-            <button className="px-8 py-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition">
-              Learn More
+            <button 
+              onClick={() => setShowDetails(!showDetails)}
+              className="px-8 py-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition"
+            >
+              {showDetails ? 'Hide Details' : 'Learn More'}
             </button>
           </div>
+
+          {showDetails && (
+            <div className="bg-white/80 backdrop-blur rounded-xl p-8 border border-blue-200 max-w-2xl mx-auto">
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">Marathon Highlights</h3>
+              <ul className="space-y-3 text-slate-700">
+                <li className="flex gap-3">
+                  <span className="text-blue-600 font-bold">✓</span>
+                  <span>42 km challenging route from Napier Bridge to Indian Maritime University</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-600 font-bold">✓</span>
+                  <span>Multiple hydration stations with health support throughout</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-600 font-bold">✓</span>
+                  <span>All proceeds support mental health awareness and initiatives</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-600 font-bold">✓</span>
+                  <span>Certificate of completion for all participants</span>
+                </li>
+              </ul>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16">
             <div className="bg-white/60 backdrop-blur rounded-lg p-6 text-center border border-white/50">
@@ -256,70 +326,106 @@ export default function Home() {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 text-slate-900">Join the Movement</h2>
 
-          <div className="bg-white rounded-2xl p-10 shadow-xl border-2 border-blue-100">
-            <div className="mb-8">
-              <label className="block text-sm font-semibold text-slate-700 mb-3">Full Name</label>
-              <input
-                type="text"
-                placeholder="Enter your full name"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              />
+          {registrationSuccess ? (
+            <div className="bg-white rounded-2xl p-12 shadow-xl border-2 border-green-200 text-center">
+              <div className="text-6xl mb-4">🎉</div>
+              <h3 className="text-3xl font-bold text-green-600 mb-2">Registration Successful!</h3>
+              <p className="text-slate-600 mb-4">Thank you {name} for registering for Mind Over Miles!</p>
+              <p className="text-slate-600 mb-6">A confirmation email will be sent to {email}</p>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <p className="text-sm text-slate-700 mb-2"><span className="font-semibold">Category:</span> {category}</p>
+                <p className="text-sm text-slate-700 mb-2"><span className="font-semibold">Participation Fee:</span> ₹3,000</p>
+                <p className="text-sm text-slate-700"><span className="font-semibold">Reference ID:</span> MOM-{Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+              </div>
+              <p className="text-slate-600 text-sm">See you on October 10th! 🏃‍♂️💚</p>
             </div>
+          ) : (
+            <form onSubmit={handleRegister} className="bg-white rounded-2xl p-10 shadow-xl border-2 border-blue-100">
+              <div className="mb-8">
+                <label className="block text-sm font-semibold text-slate-700 mb-3">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                  required
+                />
+              </div>
 
-            <div className="mb-8">
-              <label className="block text-sm font-semibold text-slate-700 mb-3">Email Address</label>
-              <input
-                type="email"
-                placeholder="your.email@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              />
-            </div>
+              <div className="mb-8">
+                <label className="block text-sm font-semibold text-slate-700 mb-3">Email Address</label>
+                <input
+                  type="email"
+                  placeholder="your.email@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                  required
+                />
+              </div>
 
-            <div className="mb-8">
-              <label className="block text-sm font-semibold text-slate-700 mb-3">Phone Number</label>
-              <input
-                type="tel"
-                placeholder="+91 9876543210"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              />
-            </div>
+              <div className="mb-8">
+                <label className="block text-sm font-semibold text-slate-700 mb-3">Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="+91 9876543210"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                  required
+                />
+              </div>
 
-            <div className="mb-8">
-              <label className="block text-sm font-semibold text-slate-700 mb-3">Category</label>
-              <select className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                <option>Select category</option>
-                <option>Marathon (42 km)</option>
-                <option>Half Marathon (21 km)</option>
-                <option>10K Run</option>
-              </select>
-            </div>
+              <div className="mb-8">
+                <label className="block text-sm font-semibold text-slate-700 mb-3">Category</label>
+                <select 
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                >
+                  <option>Marathon (42 km)</option>
+                  <option>Half Marathon (21 km)</option>
+                  <option>10K Run</option>
+                </select>
+              </div>
 
-            <div className="bg-slate-50 rounded-lg p-6 mb-8 border border-slate-200">
-              <p className="text-slate-700 mb-2">
-                <span className="font-semibold">Participation Fee:</span> ₹3,000
+              <div className="bg-slate-50 rounded-lg p-6 mb-8 border border-slate-200">
+                <p className="text-slate-700 mb-2">
+                  <span className="font-semibold">Participation Fee:</span> ₹3,000
+                </p>
+                <p className="text-sm text-slate-600">
+                  Your registration helps us support mental health initiatives. Thank you for your contribution!
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 mb-8">
+                <input 
+                  type="checkbox" 
+                  id="terms" 
+                  className="w-4 h-4 rounded cursor-pointer"
+                  checked={terms}
+                  onChange={(e) => setTerms(e.target.checked)}
+                  required
+                />
+                <label htmlFor="terms" className="text-sm text-slate-600 cursor-pointer">
+                  I agree to the terms and conditions and understand the risks involved
+                </label>
+              </div>
+
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-lg hover:shadow-xl transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Processing...' : 'Complete Registration'}
+              </button>
+
+              <p className="text-center text-slate-600 text-sm mt-6">
+                Questions? Contact us at support@mindovermiles.com
               </p>
-              <p className="text-sm text-slate-600">
-                Your registration helps us support mental health initiatives. Thank you for your contribution!
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3 mb-8">
-              <input type="checkbox" id="terms" className="w-4 h-4 rounded" />
-              <label htmlFor="terms" className="text-sm text-slate-600">
-                I agree to the terms and conditions and understand the risks involved
-              </label>
-            </div>
-
-            <button className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-lg hover:shadow-xl transition transform hover:scale-105">
-              Complete Registration
-            </button>
-
-            <p className="text-center text-slate-600 text-sm mt-6">
-              Questions? Contact us at support@mindovermiles.com
-            </p>
-          </div>
+            </form>
+          )}
         </div>
       </section>
 
