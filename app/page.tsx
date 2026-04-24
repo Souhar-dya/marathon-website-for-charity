@@ -144,7 +144,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16">
             <div className="bg-white/60 backdrop-blur rounded-lg p-6 text-center border border-white/50">
               <div className="text-4xl mb-3">📅</div>
-              <p className="text-slate-600 font-medium">October 10, 2024</p>
+              <p className="text-slate-600 font-medium">October 10, 2026</p>
               <p className="text-sm text-slate-500">World Mental Health Day</p>
             </div>
             <div className="bg-white/60 backdrop-blur rounded-lg p-6 text-center border border-white/50">
@@ -457,12 +457,12 @@ export default function Home() {
             <div>
               <h5 className="font-semibold mb-4">Contact</h5>
               <p className="text-slate-400 text-sm">support@mindovermiles.com</p>
-              <p className="text-slate-400 text-sm">October 10, 2024</p>
+              <p className="text-slate-400 text-sm">October 10, 2026</p>
             </div>
           </div>
 
           <div className="border-t border-slate-700 pt-8 text-center text-slate-400 text-sm">
-            <p>© 2024 Mind Over Miles. All rights reserved. 💚</p>
+            <p>© 2026 Mind Over Miles. All rights reserved. 💚</p>
             <p className="mt-2">Running together, healing together.</p>
           </div>
         </div>
