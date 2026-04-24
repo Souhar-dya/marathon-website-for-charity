@@ -247,20 +247,44 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition">
-              <img 
-                src="/imu-venue.jpg" 
-                alt="Indian Maritime University - Marathon finishing point"
-                className="w-full h-48 object-cover"
-              />
               <div className="p-8">
-                <div className="flex items-start gap-4 mb-6">
+                <div className="flex items-start gap-4 mb-8">
                   <MapPin className="w-8 h-8 text-indigo-600 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2">Venue</h3>
-                    <div className="space-y-3 text-slate-600">
-                      <p><span className="font-semibold text-slate-900">Start:</span> Napier Bridge</p>
-                      <p><span className="font-semibold text-slate-900">End:</span> Indian Maritime University</p>
-                      <p><span className="text-sm">~42 km marathon route</span></p>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-6">Marathon Route</h3>
+                    
+                    {/* Starting Point */}
+                    <div className="mb-8">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">START</span>
+                        <p className="font-semibold text-slate-900">Napier Bridge</p>
+                      </div>
+                      <img 
+                        src="/napier-bridge.jpg" 
+                        alt="Napier Bridge - Marathon starting point"
+                        className="w-full h-40 object-cover rounded-lg mb-3"
+                      />
+                      <p className="text-sm text-slate-600">The iconic checkered Napier Bridge marks the beginning of your journey</p>
+                    </div>
+
+                    {/* Route Info */}
+                    <div className="flex items-center justify-center my-4">
+                      <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-indigo-600"></div>
+                    </div>
+                    <p className="text-center text-slate-500 text-sm mb-6">~42 km marathon route</p>
+
+                    {/* Ending Point */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">FINISH</span>
+                        <p className="font-semibold text-slate-900">Indian Maritime University</p>
+                      </div>
+                      <img 
+                        src="/imu-venue.jpg" 
+                        alt="Indian Maritime University - Marathon finishing point"
+                        className="w-full h-40 object-cover rounded-lg"
+                      />
+                      <p className="text-sm text-slate-600 mt-3">Complete your marathon at the prestigious Indian Maritime University headquarters</p>
                     </div>
                   </div>
                 </div>
